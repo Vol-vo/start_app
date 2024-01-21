@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'features/crypto_list/crypto_list.dart';
 import 'loginData.dart';
 
 void main() {
@@ -17,15 +18,20 @@ class StartApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
+        dividerColor: Colors.grey
       ),
-      home: const LoginPage(title: 'Log in'),
+      routes: {
+        "/": (context) => const LoginPage(title: 'Log in',),
+        "/coinList": (context) => const MainPageApp(),
+        "/coin" : (context) => const CryptoCoinScreen()
+      },
+
     );
   }
 }
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key, required this.title});
-
 
   final String title;
 
@@ -34,9 +40,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  LoginData _loginData = LoginData();
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  var _seePassword = true;
+  final LoginData _loginData = LoginData();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final _seePassword = true;
 
 
   @override
@@ -64,11 +70,12 @@ class _LoginPageState extends State<LoginPage> {
                    if(val!.isEmpty){
                      return "Empty";
                    }
+                   return null;
                  },
                  onSaved: (inValue){
-                   _loginData.login = inValue!;
+                   _loginData.setLogin(inValue!);
                    if (kDebugMode) {
-                     print(_loginData.login);
+                     print(_loginData.getLogin());
                    }
                  },
                ),
@@ -85,24 +92,22 @@ class _LoginPageState extends State<LoginPage> {
                    if (inValue!.length < 10){
                      return 'Password must be >= 10 in length';
                    }
+                   return null;
                  },
                  onSaved: (inValue){
-                   _loginData.password = inValue!;
+                   _loginData.setPassword(inValue!);
                    if (kDebugMode) {
-                     print(_loginData.password);
+                     print(_loginData.getPassword());
                    }
                  },
                ),
              ),
              ElevatedButton(
                  onPressed: (){
-                   var _key = _formKey.currentState?.validate();
-                   if (_key != null){
+                   var key = _formKey.currentState?.validate();
+                   if (key != null){
                      _formKey.currentState!.save();
-                     Navigator.push(
-                       context,
-                       MaterialPageRoute(builder: (context) => const MainPageApp()),
-                     );
+                     Navigator.pushNamed(context, "/coinList");
                    }
                    Navigator.push(
                      context,
@@ -120,28 +125,3 @@ class _LoginPageState extends State<LoginPage> {
 
 }
 
-class MainPageApp extends StatelessWidget{
-  const MainPageApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.lightGreenAccent,
-        title: const Text("Welcome in Start app"),
-        automaticallyImplyLeading: false,
-      ),
-      body: const Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-}
