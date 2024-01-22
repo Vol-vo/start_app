@@ -1,9 +1,8 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../Coin.dart';
+import '../../../../repositories/cryptoCoins/models/Coin.dart';
 
 class CryptoCoinScreen extends StatefulWidget{
   const CryptoCoinScreen({super.key});
@@ -32,9 +31,8 @@ class _CryptoCoinScreen extends State<CryptoCoinScreen>{
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: coin.getColor(),
         title: Text(coin.getName()),
-
+        backgroundColor: Colors.lightGreen,
       ),
       
     );

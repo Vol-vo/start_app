@@ -1,7 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:start_app/CoinList.dart';
+import 'package:start_app/repositories/cryptoCoins/models/CoinList.dart';
+import 'package:start_app/repositories/cryptoCoins/CryptoCoinsRepositories.dart';
 
 class MainPageApp extends StatefulWidget {
   const MainPageApp({super.key});
@@ -13,11 +13,10 @@ class MainPageApp extends StatefulWidget {
 }
 
 class _MainPageAppState extends State<MainPageApp> {
-  CoinList coinList = CoinList();
+  CoinList _coinList = CoinList();
 
   @override
   Widget build(BuildContext context) {
-    coinList = randomList();
 
     return Scaffold(
       appBar: AppBar(
@@ -26,27 +25,27 @@ class _MainPageAppState extends State<MainPageApp> {
         automaticallyImplyLeading: false,
       ),
       body: ListView.separated(
-        itemCount: coinList.size(),
-        itemBuilder: (context, i) => ListTile(
-          leading: SvgPicture.asset('Assets/svg/Bitcoin_svg.svg', height: 25, width: 25,),
-          title: Text(coinList.getName(i)),
-          subtitle: Text(coinList.getPrice(i).toString()),
-          trailing: const Icon(Icons.arrow_forward_ios_sharp),
-          onTap: () => Navigator.pushNamed(context, "/coin",
-              arguments: coinList.getCoin(i)
+            itemCount: _coinList.size(),
+            itemBuilder: (context, i) => ListTile(
+              leading: SvgPicture.asset('Assets/svg/Bitcoin_svg.svg', height: 25, width: 25,),
+              title: Text(_coinList.getName(i)),
+              subtitle: Text(_coinList.getPrice(i).toString()),
+              trailing: const Icon(Icons.arrow_forward_ios_sharp),
+              onTap: () => Navigator.pushNamed(context, "/coin",
+                  arguments: _coinList.getCoin(i)
+              ),
+            ),
+            separatorBuilder: (context, i) => const Divider(),
+
           ),
-        ),
-        separatorBuilder: (context, i) => const Divider(),
-      )
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.download_for_offline),
+        onPressed: () async {
+          _coinList = await CryptoCoinRepositories().getCoinList();
+          setState(() {});
+        },
+      ),
     );
   }
 
-  CoinList randomList(){
-    CoinList list = CoinList();
-    list.addCoin('ewf', 30, Colors.grey);
-    list.addCoin('weqve', 245235, Colors.green);
-    list.addCoin("q3ihtbi43bg", 34524523325, Colors.blue);
-    list.addCoin("qw", 21, Colors.teal);
-    return list;
-  }
 }

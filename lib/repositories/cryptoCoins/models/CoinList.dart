@@ -1,12 +1,11 @@
 import 'Coin.dart';
-import 'package:flutter/material.dart';
 class CoinList{
 
   late List<Coin> _coinList = [];
 
 
-  void addCoin(String name, double price, Color color){
-    _coinList.add(Coin(name, price, color));
+  void addCoin(String name, double price){
+    _coinList.add(Coin(name, price));
   }
 
   String getName(int index){
