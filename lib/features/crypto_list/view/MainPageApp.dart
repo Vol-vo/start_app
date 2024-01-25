@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:start_app/repositories/cryptoCoins/models/CoinList.dart';
 import 'package:start_app/repositories/cryptoCoins/CryptoCoinsRepositories.dart';
 
 class MainPageApp extends StatefulWidget {
   const MainPageApp({super.key});
-
-
 
   @override
   State<MainPageApp> createState() => _MainPageAppState();
@@ -27,9 +24,9 @@ class _MainPageAppState extends State<MainPageApp> {
       body: ListView.separated(
             itemCount: _coinList.size(),
             itemBuilder: (context, i) => ListTile(
-              leading: SvgPicture.asset('Assets/svg/Bitcoin_svg.svg', height: 25, width: 25,),
+              leading: Image.network(_coinList.getImageUrl(i)),
               title: Text(_coinList.getName(i)),
-              subtitle: Text(_coinList.getPrice(i).toString()),
+              subtitle: Text("${_coinList.getPrice(i)}\$"),
               trailing: const Icon(Icons.arrow_forward_ios_sharp),
               onTap: () => Navigator.pushNamed(context, "/coin",
                   arguments: _coinList.getCoin(i)

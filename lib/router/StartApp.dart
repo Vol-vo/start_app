@@ -11,6 +11,7 @@ class StartApp extends StatelessWidget {
       title: 'Start App',
       theme: lightTheme,
       routes: routes,
+      debugShowCheckedModeBanner: false,
 
     );
   }

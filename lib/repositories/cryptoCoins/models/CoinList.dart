@@ -4,8 +4,8 @@ class CoinList{
   late List<Coin> _coinList = [];
 
 
-  void addCoin(String name, double price){
-    _coinList.add(Coin(name, price));
+  void addCoin(String name, double price, String imageUrl){
+    _coinList.add(Coin(name, price, imageUrl));
   }
 
   String getName(int index){
@@ -22,5 +22,9 @@ class CoinList{
 
   Coin getCoin(int index){
     return _coinList[index];
+  }
+
+  String getImageUrl(int index){
+    return _coinList[index].getImageUrl();
   }
 }
